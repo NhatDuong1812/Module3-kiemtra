@@ -13,15 +13,14 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "ProduceServlet",urlPatterns = "Concac")
+@WebServlet(name = "ProduceServlet", urlPatterns = "Concac")
 public class ProduceServlet extends HttpServlet {
-    private Object List;
+
     private UserService userService;
     private Produce produce;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,48 +28,47 @@ public class ProduceServlet extends HttpServlet {
         UserService userService = new UserService();
         switch (action) {
             case "/new":
-                // (request, response);
+
                 break;
             case "/insert":
                 try {
                     insertProduce(request, response);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 break;
             case "/delete":
                 try {
                     deleteProduce(request, response);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 break;
             case "/edit":
                 try {
-                    showEditForm(request,response);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                    showEditForm(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 break;
             case "/update":
                 try {
-                    updateProduce(request,response);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                    updateProduce(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 break;
             default:
                 try {
-                    listProduce(request,response);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                    listProduce(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 break;
         }
     }
 
-    private void listProduce(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
+    private void listProduce(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         List<Produce> list = userService.showAll();
         request.setAttribute("list", list);
         RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
@@ -78,8 +76,7 @@ public class ProduceServlet extends HttpServlet {
     }
 
 
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         boolean existingBook = userService.updateProduce(produce);
         RequestDispatcher dispatcher = request.getRequestDispatcher("update.jsp");
@@ -88,8 +85,7 @@ public class ProduceServlet extends HttpServlet {
 
     }
 
-    private void insertProduce(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+    private void insertProduce(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String prime = request.getParameter("prime");
@@ -103,8 +99,7 @@ public class ProduceServlet extends HttpServlet {
         response.sendRedirect("list");
     }
 
-    private void updateProduce(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+    private void updateProduce(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String prime = request.getParameter("prime");
